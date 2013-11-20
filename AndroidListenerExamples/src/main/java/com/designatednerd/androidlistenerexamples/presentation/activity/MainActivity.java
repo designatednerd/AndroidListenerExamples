@@ -75,7 +75,11 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                //Take action based on the selection
                 selectedMenuItemAtPosition(position);
+
+                //Close the drawer.
+                mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
 

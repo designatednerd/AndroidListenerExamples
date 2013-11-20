@@ -21,6 +21,8 @@ public class KittensFragment extends Fragment {
         View mainView = inflater.inflate(R.layout.fragment_fullscreen_video_webview, container, false);
 
         mWebView = (WebView) mainView.findViewById(R.id.fragment_fsv_webview);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
         mWebView.loadUrl("http://www.emergencykitten.com");
 
         return mainView;

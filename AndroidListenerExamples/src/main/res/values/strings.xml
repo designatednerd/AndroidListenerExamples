@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">AndroidListener Examples</string>
-    <string name="action_settings">Settings</string>
 
     <!-- String Names -->
     <string-array name="examples_array">
@@ -15,6 +14,6 @@
     <string name="drawer_close">Close</string>
 
     <!-- Menu -->
-    <string name="share">Share</string>
+    <string name="action_share">Share</string>
 
 </resources>
