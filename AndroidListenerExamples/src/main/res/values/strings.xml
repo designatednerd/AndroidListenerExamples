@@ -4,12 +4,17 @@
     <string name="app_name">AndroidListener Examples</string>
     <string name="action_settings">Settings</string>
 
+    <!-- String Names -->
     <string-array name="examples_array">
         <item>Fullscreen Video</item>
+        <item>Kittens!</item>
     </string-array>
 
     <!-- Drawer -->
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+
+    <!-- Menu -->
+    <string name="share">Share</string>
 
 </resources>

@@ -15,10 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.Constants;
+import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.FullscreenVideoWebviewFragment;
+import com.designatednerd.androidlistenerexamples.presentation.fragment.KittensFragment;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,18 +29,26 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    //Enum with handler to automatically return the proper enum value based on an integer.
     private enum DrawerIndex  {
-        INDEX_VIDEO;
+        INDEX_VIDEO,
+        INDEX_KITTENS;
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
                 case 0:
                     return INDEX_VIDEO;
+                case 1:
+                    return INDEX_KITTENS;
+                default:
+                    return null;
             }
-            return null;
         }
     };
 
+    //Fragment tags
+    private static final String TAG_KITTENS_FRAGMENT = "kittens_fragment";
+    private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
 
 
     @Override
@@ -61,6 +71,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.examples_array)));
 
+        //Add an OnItemClickListener to the listView.
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -129,6 +140,16 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+        //If the drawer toggle was not selected,
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                Toast.makeText(this, "Share!", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Log.d(Constants.LOG_TAG, "Unhandled action item!");
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -144,6 +165,10 @@ public class MainActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+        // If the nav drawer is open, hide action items that are related to the content view.
+        menu.findItem(R.id.action_share).setVisible(!drawerOpen);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -163,6 +188,15 @@ public class MainActivity extends ActionBarActivity {
                         .commit();
 
                 break;
+            case INDEX_KITTENS:
+                Log.d(Constants.LOG_TAG, "Selected Kittens!");
+                KittensFragment kittensFragment = new KittensFragment();
+                kittensFragment.setRetainInstance(true);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, kittensFragment, TAG_KITTENS_FRAGMENT)
+                        .commit();
+
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
@@ -178,9 +212,6 @@ public class MainActivity extends ActionBarActivity {
     /**
      * Fullscreen video variables
      */
-    //Fragment tag
-    private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
-
     //Stores the custom view passed back by the WebChromeClient
     private View mCustomView;
 
