@@ -2,11 +2,13 @@
 <resources>
 
     <string name="app_name">AndroidListener Examples</string>
+    <string name="short_app_name">AL Examples</string>
 
     <!-- String Names -->
     <string-array name="examples_array">
         <item>Fullscreen Video</item>
         <item>Kittens!</item>
+        <item>Spanned Text</item>
     </string-array>
 
     <!-- Drawer -->
@@ -15,5 +17,14 @@
 
     <!-- Menu -->
     <string name="action_share">Share</string>
+
+    <!--Spanned Text Fragment -->
+    <string name="multiple_spans_plain_text">There are many ways to show alerts in-app in Android. You can show an AlertDialog or a Toast, for example.</string>
+    <string name="multiple_spans_part_1">There are many ways to show alerts in-app in Android. You can show an AlertDialog o</string>
+    <string name="alert_dialog_link_text">AlertDialog</string>
+    <string name="multiple_spans_part_2">r a Toast, for example.</string> <!--Broken in the middle because android trims resource strings -->
+    <string name="toast_link_text">Toast</string>
+    <string name="single_span_plain_text">You can also post a Notification to the drawer.</string>
+    <string name="notification_link_text">Notification</string>
 
 </resources>

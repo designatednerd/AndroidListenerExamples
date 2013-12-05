@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/spanned_text_multiple"
+            style="@style/SpannedTextView"
+            android:text="@string/multiple_spans_plain_text"
+            />
+        <TextView
+            android:id="@+id/spanned_text_single"
+            style="@style/SpannedTextView"
+            android:text="@string/single_span_plain_text"/>
+        </LinearLayout>
+</ScrollView>

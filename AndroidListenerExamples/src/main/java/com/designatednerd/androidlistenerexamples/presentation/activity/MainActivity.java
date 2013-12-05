@@ -21,6 +21,7 @@ import com.designatednerd.androidlistenerexamples.Constants;
 import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.FullscreenVideoWebviewFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.KittensFragment;
+import com.designatednerd.androidlistenerexamples.presentation.fragment.TextSpanFragment;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -32,7 +33,8 @@ public class MainActivity extends ActionBarActivity {
     //Enum with handler to automatically return the proper enum value based on an integer.
     private enum DrawerIndex  {
         INDEX_VIDEO,
-        INDEX_KITTENS;
+        INDEX_KITTENS,
+        INDEX_TEXT_SPAN;
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
@@ -40,6 +42,8 @@ public class MainActivity extends ActionBarActivity {
                     return INDEX_VIDEO;
                 case 1:
                     return INDEX_KITTENS;
+                case 2:
+                    return INDEX_TEXT_SPAN;
                 default:
                     return null;
             }
@@ -47,9 +51,9 @@ public class MainActivity extends ActionBarActivity {
     };
 
     //Fragment tags
-    private static final String TAG_KITTENS_FRAGMENT = "kittens_fragment";
+    private static final String TAG_KITTENS_FRAGMENT = "fragment_kittens";
     private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
-
+    private static final String TAG_TEXT_SPAN_FRAGMENT = "fragment_text_span";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +204,16 @@ public class MainActivity extends ActionBarActivity {
                         .beginTransaction()
                         .replace(R.id.content_frame, kittensFragment, TAG_KITTENS_FRAGMENT)
                         .commit();
-
+                break;
+            case INDEX_TEXT_SPAN:
+                Log.d(Constants.LOG_TAG, "Selected Text Span!");
+                TextSpanFragment textSpanFragment = new TextSpanFragment();
+                textSpanFragment.setRetainInstance(true);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, textSpanFragment, TAG_TEXT_SPAN_FRAGMENT)
+                        .commit();
+                break;
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
