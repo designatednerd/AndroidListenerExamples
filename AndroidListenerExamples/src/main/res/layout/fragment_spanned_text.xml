@@ -12,11 +12,11 @@
         <TextView
             android:id="@+id/spanned_text_multiple"
             style="@style/SpannedTextView"
-            android:text="@string/multiple_spans_plain_text"
+            android:text="@string/stf_multiple_spans_plain_text"
             />
         <TextView
             android:id="@+id/spanned_text_single"
             style="@style/SpannedTextView"
-            android:text="@string/single_span_plain_text"/>
+            android:text="@string/stf_single_span_plain_text"/>
         </LinearLayout>
 </ScrollView>

@@ -3,6 +3,7 @@ package com.designatednerd.androidlistenerexamples.presentation.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +22,9 @@ import com.designatednerd.androidlistenerexamples.Constants;
 import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.FullscreenVideoWebviewFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.KittensFragment;
-import com.designatednerd.androidlistenerexamples.presentation.fragment.TextSpanFragment;
+import com.designatednerd.androidlistenerexamples.presentation.fragment.SpannedTextFragment;
+
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -38,22 +41,50 @@ public class MainActivity extends ActionBarActivity {
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
-                case 0:
+                case 2:
                     return INDEX_VIDEO;
                 case 1:
                     return INDEX_KITTENS;
-                case 2:
+                case 0:
                     return INDEX_TEXT_SPAN;
                 default:
                     return null;
             }
         }
+
+        public static DrawerIndex fromTag(String tag) {
+            if (tag.equalsIgnoreCase(TAG_VIDEO_FRAGMENT)) {
+                return INDEX_VIDEO;
+            } else if (tag.equalsIgnoreCase(TAG_KITTENS_FRAGMENT)) {
+                return INDEX_KITTENS;
+            } else if (tag.equalsIgnoreCase(TAG_TEXT_SPAN_FRAGMENT)) {
+                return INDEX_TEXT_SPAN;
+            } else {
+                return null;
+            }
+        }
+
+        public static int valueOf(DrawerIndex index) {
+            switch (index) {
+                case INDEX_VIDEO:
+                    return 2;
+                case INDEX_KITTENS:
+                    return 1;
+                case INDEX_TEXT_SPAN:
+                    return 0;
+                default:
+                    return -1;
+            }
+        }
     };
 
     //Fragment tags
-    private static final String TAG_KITTENS_FRAGMENT = "fragment_kittens";
-    private static final String TAG_VIDEO_FRAGMENT = "fragment_video";
-    private static final String TAG_TEXT_SPAN_FRAGMENT = "fragment_text_span";
+    public static final String TAG_KITTENS_FRAGMENT = "fragment_kittens";
+    public static final String TAG_VIDEO_FRAGMENT = "fragment_video";
+    public static final String TAG_TEXT_SPAN_FRAGMENT = "fragment_text_span";
+
+    //Extras
+    public static final String EXTRA_FRAGMENT_TO_LAUNCH = "fragment_to_launch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,25 +124,41 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(R.string.app_name);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(R.string.drawer_close);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called as the drawer slides by percentage **/
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                //SlideOffset comes in on a scale of 0-1.
+                //40% looks roughly about right to swap out
+                if (slideOffset > 0.4) {
+                    getSupportActionBar().setTitle(R.string.drawer_close);
+                } else {
+                    setTitleForActiveTag();
+                }
             }
         };
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && !getIntent().hasExtra(EXTRA_FRAGMENT_TO_LAUNCH)) {
             //Automatically select the first item
             selectedMenuItemAtPosition(0);
-        }
-
+        } else if (getIntent().hasExtra(EXTRA_FRAGMENT_TO_LAUNCH)) {
+            //Handle any passed-in intent. 
+            String tagToLaunch = getIntent().getStringExtra(EXTRA_FRAGMENT_TO_LAUNCH);
+            DrawerIndex itemToLaunch = DrawerIndex.fromTag(tagToLaunch);
+            int indexToLaunch = DrawerIndex.valueOf(itemToLaunch);
+            selectedMenuItemAtPosition(indexToLaunch);
+        } //else saved instance state is not null and you should probably handle that. I'm not.
     }
 
     @Override
@@ -189,35 +236,89 @@ public class MainActivity extends ActionBarActivity {
             case INDEX_VIDEO:
                 Log.d(Constants.LOG_TAG, "Selected Video");
                 FullscreenVideoWebviewFragment videoFragment = new FullscreenVideoWebviewFragment();
-                videoFragment.setRetainInstance(true);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_frame, videoFragment, TAG_VIDEO_FRAGMENT)
-                        .commit();
-
+                showFragment(videoFragment, TAG_VIDEO_FRAGMENT);
                 break;
             case INDEX_KITTENS:
                 Log.d(Constants.LOG_TAG, "Selected Kittens!");
                 KittensFragment kittensFragment = new KittensFragment();
-                kittensFragment.setRetainInstance(true);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_frame, kittensFragment, TAG_KITTENS_FRAGMENT)
-                        .commit();
+                showFragment(kittensFragment, TAG_KITTENS_FRAGMENT);
                 break;
             case INDEX_TEXT_SPAN:
                 Log.d(Constants.LOG_TAG, "Selected Text Span!");
-                TextSpanFragment textSpanFragment = new TextSpanFragment();
-                textSpanFragment.setRetainInstance(true);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_frame, textSpanFragment, TAG_TEXT_SPAN_FRAGMENT)
-                        .commit();
+                SpannedTextFragment spannedTextFragment = new SpannedTextFragment();
+                showFragment(spannedTextFragment, TAG_TEXT_SPAN_FRAGMENT);
                 break;
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
         }
+    }
+
+    /**
+     * Shows the given fragment and updates the action bar title
+     * @param fragment - The fragment to show
+     * @param tag - The tag associated with the fragment.
+     */
+    public void showFragment(Fragment fragment, String tag) {
+        fragment.setRetainInstance(true);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, fragment, tag)
+                .addToBackStack(null)
+                .commit();
+        setTitleForTag(tag);
+    }
+
+    /**
+     * Gets the fragment tag of the currently visible fragment
+     * @return The currently visible fragment's tag
+     */
+    private String getActiveFragmentTag() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+        if (fragments == null) {
+            return null;
+        }
+
+        for (Fragment fragment : fragments) {
+            if (fragment.isVisible()) {
+                return fragment.getTag();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the title based on the passed in fragment tag.
+     * @param fragmentTag - The fragment tag of the fragment you want the title for.
+     * @return The title for the given fragment.
+     */
+    private String titleForTag(String fragmentTag) {
+        if (fragmentTag == null) {
+            return getString(R.string.app_name);
+        }
+        DrawerIndex tagIndex = DrawerIndex.fromTag(fragmentTag);
+        int tagValue = DrawerIndex.valueOf(tagIndex);
+
+        String title = getResources().getStringArray(R.array.examples_array)[tagValue];
+        return title;
+    }
+
+    /**
+     * Sets the title based on a given fragment's tag to the action bar.
+     * @param tag - The tag to use to find the title.
+     */
+    private void setTitleForTag(String tag) {
+        getSupportActionBar().setTitle(titleForTag(tag));
+    }
+
+    /**
+     * Sets the title to the action bar based on the tag of the currently active fragment.
+     */
+    private void setTitleForActiveTag() {
+        String activeTag = getActiveFragmentTag();
+        getSupportActionBar().setTitle(titleForTag(activeTag));
     }
 
     /**
