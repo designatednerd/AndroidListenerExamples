@@ -6,6 +6,7 @@
 
     <!-- String Names -->
     <string-array name="examples_array">
+        <item>Immersive Mode</item>
         <item>Spanned Text</item>
         <item>Kittens!</item>
         <item>Fullscreen Video</item>
@@ -31,5 +32,9 @@
     <string name="stf_alert_close">OK</string>
     <string name="stf_notification_title">Spanned Text Example</string>
     <string name="stf_notification_text">A Notification!</string>
+
+    <!--Immersive Fragment -->
+    <string name="if_homer">No TV And No Beer Make Homer Something Something</string>
+    <string name="if_no_immersive_for_you">Android Gingerbread and below do not support anything even resembling Immersive Mode. :(</string>
 
 </resources>

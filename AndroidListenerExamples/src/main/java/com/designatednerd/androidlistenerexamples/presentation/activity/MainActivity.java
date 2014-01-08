@@ -1,12 +1,16 @@
 package com.designatednerd.androidlistenerexamples.presentation.activity;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.designatednerd.androidlistenerexamples.Constants;
 import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.FullscreenVideoWebviewFragment;
+import com.designatednerd.androidlistenerexamples.presentation.fragment.ImmersiveFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.KittensFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.SpannedTextFragment;
 
@@ -32,21 +37,27 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Menu mMenu;
+    private int mStatusBarHeight;
+    private int mNavigationBarHeight;
 
     //Enum with handler to automatically return the proper enum value based on an integer.
     private enum DrawerIndex  {
         INDEX_VIDEO,
         INDEX_KITTENS,
-        INDEX_TEXT_SPAN;
+        INDEX_TEXT_SPAN,
+        INDEX_IMMERSIVE;
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
-                case 2:
+                case 3:
                     return INDEX_VIDEO;
-                case 1:
+                case 2:
                     return INDEX_KITTENS;
-                case 0:
+                case 1:
                     return INDEX_TEXT_SPAN;
+                case 0:
+                    return INDEX_IMMERSIVE;
                 default:
                     return null;
             }
@@ -59,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
                 return INDEX_KITTENS;
             } else if (tag.equalsIgnoreCase(TAG_TEXT_SPAN_FRAGMENT)) {
                 return INDEX_TEXT_SPAN;
+            } else if (tag.equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
+                return INDEX_IMMERSIVE;
             } else {
                 return null;
             }
@@ -67,10 +80,12 @@ public class MainActivity extends ActionBarActivity {
         public static int valueOf(DrawerIndex index) {
             switch (index) {
                 case INDEX_VIDEO:
-                    return 2;
+                    return 3;
                 case INDEX_KITTENS:
-                    return 1;
+                    return 2;
                 case INDEX_TEXT_SPAN:
+                    return 1;
+                case INDEX_IMMERSIVE:
                     return 0;
                 default:
                     return -1;
@@ -82,6 +97,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG_KITTENS_FRAGMENT = "fragment_kittens";
     public static final String TAG_VIDEO_FRAGMENT = "fragment_video";
     public static final String TAG_TEXT_SPAN_FRAGMENT = "fragment_text_span";
+    public static final String TAG_IMMERSIVE_FRAGMENT = "fragment_immersive";
 
     //Extras
     public static final String EXTRA_FRAGMENT_TO_LAUNCH = "fragment_to_launch";
@@ -124,12 +140,24 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                if (Build.VERSION.SDK_INT >= 11) {
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                } else {
+                    //Call it directly on gingerbread.
+                    onPrepareOptionsMenu(mMenu);
+                }
+
+                startFullscreenIfNeeded();
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                if (Build.VERSION.SDK_INT >= 11) {
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                } else {
+                    //Call it directly on gingerbread.
+                    onPrepareOptionsMenu(mMenu);
+                }
             }
 
             /** Called as the drawer slides by percentage **/
@@ -140,6 +168,7 @@ public class MainActivity extends ActionBarActivity {
                 //40% looks roughly about right to swap out
                 if (slideOffset > 0.4) {
                     getSupportActionBar().setTitle(R.string.drawer_close);
+                    stopFullscreenIfNeeded();
                 } else {
                     setTitleForActiveTag();
                 }
@@ -186,7 +215,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
@@ -211,6 +239,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -248,11 +277,16 @@ public class MainActivity extends ActionBarActivity {
                 SpannedTextFragment spannedTextFragment = new SpannedTextFragment();
                 showFragment(spannedTextFragment, TAG_TEXT_SPAN_FRAGMENT);
                 break;
+            case INDEX_IMMERSIVE:
+                Log.d(Constants.LOG_TAG, "Selected Immersive!");
+                ImmersiveFragment immersiveFragment = new ImmersiveFragment();
+                showFragment(immersiveFragment, TAG_IMMERSIVE_FRAGMENT);
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
         }
     }
+
 
     /**
      * Shows the given fragment and updates the action bar title
@@ -319,6 +353,39 @@ public class MainActivity extends ActionBarActivity {
     private void setTitleForActiveTag() {
         String activeTag = getActiveFragmentTag();
         getSupportActionBar().setTitle(titleForTag(activeTag));
+    }
+
+    private int getStatusBarHeight() {
+        if (mStatusBarHeight == 0) {
+            Rect screenFrame = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(screenFrame);
+            mStatusBarHeight = screenFrame.top;
+        }
+
+        return mStatusBarHeight;
+    }
+
+    @SuppressLint("Deprecation") //Device getHeight() is deprecated but the replacement is API 13+
+    public int getNavigationBarHeight() {
+        if (mNavigationBarHeight == 0) {
+            Rect visibleFrame = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(visibleFrame);
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            if (Build.VERSION.SDK_INT >= 17) {
+                //The sane way to calculate this.
+                getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
+                mNavigationBarHeight = outMetrics.heightPixels - visibleFrame.bottom;
+            } else {
+                getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+
+                //visibleFrame will return the same as the outMetrics the first time through,
+                // then will have the visible frame the full size of the screen when it comes back
+                // around to close. OutMetrics will always be the view - the nav bar.
+                mNavigationBarHeight = visibleFrame.bottom - outMetrics.heightPixels;
+            }
+        }
+
+        return mNavigationBarHeight;
     }
 
     /**
@@ -422,4 +489,43 @@ public class MainActivity extends ActionBarActivity {
             super.onBackPressed();
         }
     }
+    @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
+    private void stopFullscreenIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 14 && //At least ICS
+            getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) { //In the immersive fragment
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mDrawerLayout.getLayoutParams();
+            params.setMargins(0, getSupportActionBar().getHeight() + getStatusBarHeight(), 0, 0);
+
+            mDrawerLayout.setLayoutParams(params);
+            mDrawerLayout.requestLayout();
+        }
+    }
+    @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
+    private void startFullscreenIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 14) { //At least ICS
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mDrawerLayout.getLayoutParams();
+            if (getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) { //In the immersive fragment
+                params.setMargins(0, 0, 0, 0);
+            } else {
+                params.setMargins(0, getSupportActionBar().getHeight() + getStatusBarHeight(), 0, getNavigationBarHeight());
+            }
+
+            mDrawerLayout.setLayoutParams(params);
+            mDrawerLayout.requestLayout();
+        }
+    }
+
+//    @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (Build.VERSION.SDK_INT >= 14) {
+//            if (hasFocus) {
+//
+//            } else {
+//
+//            }
+//        }
+//
+//    }
 }
