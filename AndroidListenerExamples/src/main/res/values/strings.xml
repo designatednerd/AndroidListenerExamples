@@ -35,6 +35,6 @@
 
     <!--Immersive Fragment -->
     <string name="if_homer">No TV And No Beer Make Homer Something Something</string>
-    <string name="if_no_immersive_for_you">Android Gingerbread and below do not support anything even resembling Immersive Mode. :(</string>
+    <string name="if_no_immersive_for_you">Android Honeycomb and below do not support anything even resembling Immersive Mode. :(</string>
 
 </resources>

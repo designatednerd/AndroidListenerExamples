@@ -38,6 +38,8 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu mMenu;
+
+    //Variables for Immersive Mode.
     private int mStatusBarHeight;
     private int mNavigationBarHeight;
 
@@ -355,6 +357,10 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setTitle(titleForTag(activeTag));
     }
 
+    /**
+     * Calculates the height of the Status Sar (the bar at the top of the screen).
+     * @return The height of the Status Bar.
+     */
     private int getStatusBarHeight() {
         if (mStatusBarHeight == 0) {
             Rect screenFrame = new Rect();
@@ -365,6 +371,11 @@ public class MainActivity extends ActionBarActivity {
         return mStatusBarHeight;
     }
 
+    /**
+     * Calculates the height of the Navigation Bar (ie, the bar at the bottom of the screen with
+     * the Home, Back, and Recent buttons).
+     * @return The height of the Navigation Bar. Will return 0 if this is in hardware.
+     */
     @SuppressLint("Deprecation") //Device getHeight() is deprecated but the replacement is API 13+
     public int getNavigationBarHeight() {
         if (mNavigationBarHeight == 0) {
@@ -489,21 +500,35 @@ public class MainActivity extends ActionBarActivity {
             super.onBackPressed();
         }
     }
+
+    /**
+     * Adds margins to compensate for the {@link ImmersiveFragment}'s setting of FullScreen mode if
+     * it is the topmost fragment.
+     */
     @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
     private void stopFullscreenIfNeeded() {
         if (Build.VERSION.SDK_INT >= 14 && //At least ICS
             getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) { //In the immersive fragment
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mDrawerLayout.getLayoutParams();
+            //TODO: Fix this calculation for SDK < 18
             params.setMargins(0, getSupportActionBar().getHeight() + getStatusBarHeight(), 0, 0);
 
             mDrawerLayout.setLayoutParams(params);
             mDrawerLayout.requestLayout();
         }
     }
+
+    /**
+     * Removes or adds margins to compensate for the {@link ImmersiveFragment}'s setting of FullScreen mode.
+     *
+     * Will remove the margins if going back to the {@link ImmersiveFragment}, and will add them if going to
+     * any other fragment
+     */
     @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
     private void startFullscreenIfNeeded() {
         if (Build.VERSION.SDK_INT >= 14) { //At least ICS
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mDrawerLayout.getLayoutParams();
+            //TODO: Fix this calculation for SDK < 18
             if (getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) { //In the immersive fragment
                 params.setMargins(0, 0, 0, 0);
             } else {
@@ -515,17 +540,15 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-//    @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        if (Build.VERSION.SDK_INT >= 14) {
-//            if (hasFocus) {
-//
-//            } else {
-//
-//            }
-//        }
-//
-//    }
+    @SuppressLint("NewApi") //Suppressed since we're wrapping the call for an API 11+ method in a check for API 14+.
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= 14 &&
+            getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
+            //Forward the window focus change to the immersive fragment.
+            ImmersiveFragment immersiveFragment = (ImmersiveFragment)getSupportFragmentManager().findFragmentByTag(TAG_IMMERSIVE_FRAGMENT);
+            immersiveFragment.handleWindowFocusChange(hasFocus);
+        }
+    }
 }
