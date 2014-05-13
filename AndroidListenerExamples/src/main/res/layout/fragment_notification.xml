@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.designatednerd.androidlistenerexamples.presentation.fragment.NotificationFragment">
+
+    <Button
+        android:id="@+id/nf_simple_notification_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nf_simple_notification" />
+    <Button
+        android:id="@+id/nf_big_text_notification_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nf_big_text" />
+    <Button
+        android:id="@+id/nf_big_picture_notification_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nf_big_picture" />
+    <Button
+        android:id="@+id/nf_rollup_notification_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nf_rollup" />
+    <Button
+        android:id="@+id/nf_remote_views_notification_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nf_remote_views" />
+</LinearLayout>

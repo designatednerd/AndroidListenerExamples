@@ -27,6 +27,7 @@ import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.FullscreenVideoWebviewFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.ImmersiveFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.KittensFragment;
+import com.designatednerd.androidlistenerexamples.presentation.fragment.NotificationFragment;
 import com.designatednerd.androidlistenerexamples.presentation.fragment.SpannedTextFragment;
 
 import java.util.List;
@@ -48,18 +49,21 @@ public class MainActivity extends ActionBarActivity {
         INDEX_VIDEO,
         INDEX_KITTENS,
         INDEX_TEXT_SPAN,
-        INDEX_IMMERSIVE;
+        INDEX_IMMERSIVE,
+        INDEX_NOTIFICATION;
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
-                case 3:
+                case 4:
                     return INDEX_VIDEO;
-                case 2:
+                case 3:
                     return INDEX_KITTENS;
-                case 1:
+                case 2:
                     return INDEX_TEXT_SPAN;
-                case 0:
+                case 1:
                     return INDEX_IMMERSIVE;
+                case 0:
+                    return INDEX_NOTIFICATION;
                 default:
                     return null;
             }
@@ -74,6 +78,8 @@ public class MainActivity extends ActionBarActivity {
                 return INDEX_TEXT_SPAN;
             } else if (tag.equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
                 return INDEX_IMMERSIVE;
+            } else if (tag.equalsIgnoreCase(TAG_NOTIFICATION_FRAGMENT)) {
+                return INDEX_NOTIFICATION;
             } else {
                 return null;
             }
@@ -82,12 +88,14 @@ public class MainActivity extends ActionBarActivity {
         public static int valueOf(DrawerIndex index) {
             switch (index) {
                 case INDEX_VIDEO:
-                    return 3;
+                    return 4;
                 case INDEX_KITTENS:
-                    return 2;
+                    return 3;
                 case INDEX_TEXT_SPAN:
-                    return 1;
+                    return 2;
                 case INDEX_IMMERSIVE:
+                    return 1;
+                case INDEX_NOTIFICATION:
                     return 0;
                 default:
                     return -1;
@@ -100,6 +108,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG_VIDEO_FRAGMENT = "fragment_video";
     public static final String TAG_TEXT_SPAN_FRAGMENT = "fragment_text_span";
     public static final String TAG_IMMERSIVE_FRAGMENT = "fragment_immersive";
+    public static final String TAG_NOTIFICATION_FRAGMENT = "fragment_notification";
 
     //Extras
     public static final String EXTRA_FRAGMENT_TO_LAUNCH = "fragment_to_launch";
@@ -283,6 +292,10 @@ public class MainActivity extends ActionBarActivity {
                 Log.d(Constants.LOG_TAG, "Selected Immersive!");
                 ImmersiveFragment immersiveFragment = new ImmersiveFragment();
                 showFragment(immersiveFragment, TAG_IMMERSIVE_FRAGMENT);
+            case INDEX_NOTIFICATION:
+                Log.d(Constants.LOG_TAG, "Selected Notifications!");
+                NotificationFragment notificationFragment = new NotificationFragment();
+                showFragment(notificationFragment, TAG_NOTIFICATION_FRAGMENT);
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
@@ -544,6 +557,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        Log.d(Constants.LOG_TAG, "WAT");
         if (Build.VERSION.SDK_INT >= 14 &&
             getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
             //Forward the window focus change to the immersive fragment.

@@ -6,6 +6,7 @@
 
     <!-- String Names -->
     <string-array name="examples_array">
+        <item>Notifications</item>
         <item>Immersive Mode</item>
         <item>Spanned Text</item>
         <item>Kittens!</item>
@@ -19,11 +20,11 @@
     <!-- Menu -->
     <string name="action_share">Share</string>
 
-    <!--Spanned Text Fragment -->
+    <!-- Spanned Text Fragment -->
     <string name="stf_multiple_spans_plain_text">There are many ways to show alerts in-app in Android. You can show an AlertDialog or a Toast, for example.</string>
     <string name="stf_multiple_spans_part_1">There are many ways to show alerts in-app in Android. You can show an AlertDialog o</string>
     <string name="stf_alert_dialog_link_text">AlertDialog</string>
-    <string name="stf_multiple_spans_part_2">r a Toast, for example.</string> <!--Broken in the middle because android trims resource strings -->
+    <string name="stf_multiple_spans_part_2">r a Toast, for example.</string> <!-- Broken in the middle because android trims resource strings -->
     <string name="stf_toast_link_text">Toast</string>
     <string name="stf_single_span_plain_text">You can also post a Notification to the drawer.</string>
     <string name="stf_notification_link_text">Notification</string>
@@ -33,8 +34,15 @@
     <string name="stf_notification_title">Spanned Text Example</string>
     <string name="stf_notification_text">A Notification!</string>
 
-    <!--Immersive Fragment -->
+    <!-- Immersive Fragment -->
     <string name="if_homer">No TV And No Beer Make Homer Something Something</string>
     <string name="if_no_immersive_for_you">Android Honeycomb and below do not support anything even resembling Immersive Mode. :(</string>
+
+    <!--Notification Fragment -->
+    <string name="nf_simple_notification">Simple Notification</string>
+    <string name="nf_big_text">Big Text Notification</string>
+    <string name="nf_big_picture">Big Picture Notification</string>
+    <string name="nf_rollup">Rollup Notification</string>
+    <string name="nf_remote_views">Custom Notification With RemoteViews</string>
 
 </resources>
