@@ -292,10 +292,12 @@ public class MainActivity extends ActionBarActivity {
                 Log.d(Constants.LOG_TAG, "Selected Immersive!");
                 ImmersiveFragment immersiveFragment = new ImmersiveFragment();
                 showFragment(immersiveFragment, TAG_IMMERSIVE_FRAGMENT);
+                break;
             case INDEX_NOTIFICATION:
                 Log.d(Constants.LOG_TAG, "Selected Notifications!");
                 NotificationFragment notificationFragment = new NotificationFragment();
                 showFragment(notificationFragment, TAG_NOTIFICATION_FRAGMENT);
+                break;
             default:
                 Log.e(Constants.LOG_TAG, "Unhandled position selection from drawer " + position);
                 break;
@@ -545,7 +547,7 @@ public class MainActivity extends ActionBarActivity {
             if (getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) { //In the immersive fragment
                 params.setMargins(0, 0, 0, 0);
             } else {
-                params.setMargins(0, getSupportActionBar().getHeight() + getStatusBarHeight(), 0, getNavigationBarHeight());
+                params.setMargins(0, 0, 0, 0);
             }
 
             mDrawerLayout.setLayoutParams(params);
@@ -557,7 +559,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Log.d(Constants.LOG_TAG, "WAT");
         if (Build.VERSION.SDK_INT >= 14 &&
             getActiveFragmentTag().equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
             //Forward the window focus change to the immersive fragment.
