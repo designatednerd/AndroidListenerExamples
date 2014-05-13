@@ -42,7 +42,15 @@
     <string name="nf_simple_notification">Simple Notification</string>
     <string name="nf_big_text">Big Text Notification</string>
     <string name="nf_big_picture">Big Picture Notification</string>
-    <string name="nf_rollup">Rollup Notification</string>
+    <string name="nf_inbox">Inbox Notification</string>
     <string name="nf_remote_views">Custom Notification With RemoteViews</string>
-
+    <string name="nf_simple_title">Easy Notification</string>
+    <string name="nf_simple_message">"This is super simple!"</string>
+    <string name="nf_simple_ticker">"O Hai Notification Area"</string>
+    <string name="nf_big_text_title">Big Text Notification</string>
+    <string name="nf_big_text_truncated">I am the very model of...</string>
+    <string name="nf_big_text_long">I am the very model of a cartoon individual,\nMy animation\'s comical, unusual and whimsical\nI\'m quite adept at funny gags, comedic theory I have read,\nFrom wicked jokes to stupid puns to anvils that fall on your head.</string>
+    <string name="nf_big_pic_title">Big Picture Notification</string>
+    <string name="nf_big_pic_message">Ellen posted yet another cat photo</string>
+    <string name="nf_big_pic_content_title">This is Chaplin.</string>
 </resources>

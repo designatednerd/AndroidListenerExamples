@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:text="@string/nf_big_picture" />
     <Button
-        android:id="@+id/nf_rollup_notification_button"
+        android:id="@+id/nf_inbox_notification_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nf_rollup" />
+        android:text="@string/nf_inbox" />
     <Button
         android:id="@+id/nf_remote_views_notification_button"
         android:layout_width="match_parent"
