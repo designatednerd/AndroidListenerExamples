@@ -19,6 +19,7 @@ import com.designatednerd.androidlistenerexamples.Constants;
 import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.activity.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,8 @@ public class NotificationFragment extends Fragment {
     private static final int TAG_SIMPLE_NOTIFICATION = 1;
     private static final int TAG_BIG_TEXT_NOTIFICATION = 2;
     private static final int TAG_BIG_PICTURE_NOTIFICATION = 3;
+    private static final int TAG_INBOX_NOTIFICATION = 4;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMainView = inflater.inflate(R.layout.fragment_notification, container, false);
@@ -170,7 +173,52 @@ public class NotificationFragment extends Fragment {
     }
 
     private void showInboxNotification() {
-        Log.d(Constants.LOG_TAG, "INBOX NOTIFICATION");
+        //Create the list object if it doesn't already exist.
+        if (mInboxList == null) {
+            mInboxList = new ArrayList<String>();
+        }
+
+        //Add an item to the list
+        mInboxList.add(getString(R.string.nf_inbox_item));
+        int count = mInboxList.size();
+        String inboxTitle = getResources().getQuantityString(R.plurals.nf_inbox_count, count, count);
+
+        //Create the inbox compat
+        NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
+
+        String summaryText = getString(R.string.nf_inbox_summary, count);
+        //Set the summary text for the inbox item
+        inbox.setSummaryText(summaryText);
+
+        //Add a line for each item in the list.
+        for (String item : mInboxList) {
+            inbox.addLine(item);
+        }
+
+        inbox.setBigContentTitle(inboxTitle);
+
+        String mostRecentInboxItem = mInboxList.get(mInboxList.size() - 1);
+        Notification notification = new NotificationCompat.Builder(getActivity())
+                .setContentTitle(inboxTitle)
+                //This will show on devices that don't support the inbox and if further notifications
+                //come in after the inbox notification.
+                .setContentText(summaryText)
+                //This will only show when the first inbox item arrives - subsequent items will just be added.
+                .setTicker(mostRecentInboxItem)
+                .setSmallIcon(R.drawable.ic_notify)
+                .setLargeIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher))
+                .setContentIntent(pendingIntentForNotification())
+                 //This will show on devices that do support the inbox style.
+                .setStyle(inbox)
+                .build();
+
+        //Same deal as the simple notification.
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager = (NotificationManager)
+                getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //Here the tag is used to figure out what notification to add all these items to.
+        notificationManager.notify(TAG_INBOX_NOTIFICATION, notification);
     }
 
     private void showRemoteViewsNotification() {

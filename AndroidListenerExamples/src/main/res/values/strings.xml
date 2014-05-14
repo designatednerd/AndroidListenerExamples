@@ -53,4 +53,12 @@
     <string name="nf_big_pic_title">Big Picture Notification</string>
     <string name="nf_big_pic_message">Ellen posted yet another cat photo</string>
     <string name="nf_big_pic_content_title">This is Chaplin.</string>
+    <string name="nf_inbox_title">Inbox Notification</string>
+    <string name="nf_inbox_item">Blackhawks Goal!</string>
+    <string name="nf_inbox_summary">Blackhawks %d, Wild 0</string>
+    <plurals name="nf_inbox_count">
+        <item quantity="one">Blackhawks scored 1 goal!</item>
+        <item quantity="other">Blackhawks scored %d goals!</item>
+    </plurals>
+
 </resources>
