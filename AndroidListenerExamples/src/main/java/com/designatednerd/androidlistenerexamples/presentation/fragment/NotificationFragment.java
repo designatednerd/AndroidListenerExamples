@@ -71,14 +71,6 @@ public class NotificationFragment extends Fragment {
             }
         });
 
-        Button remoteViews = (Button)mMainView.findViewById(R.id.nf_remote_views_notification_button);
-        remoteViews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showRemoteViewsNotification();
-            }
-        });
-
         return mMainView;
     }
 
@@ -190,11 +182,13 @@ public class NotificationFragment extends Fragment {
         //Set the summary text for the inbox item
         inbox.setSummaryText(summaryText);
 
-        //Add a line for each item in the list.
+        //Add a line for each item in the list - you have to do this manually, the notification
+        //won't build this automatically.
         for (String item : mInboxList) {
             inbox.addLine(item);
         }
 
+        //Set the big content title for when the inbox is expanded
         inbox.setBigContentTitle(inboxTitle);
 
         String mostRecentInboxItem = mInboxList.get(mInboxList.size() - 1);
@@ -219,9 +213,5 @@ public class NotificationFragment extends Fragment {
 
         //Here the tag is used to figure out what notification to add all these items to.
         notificationManager.notify(TAG_INBOX_NOTIFICATION, notification);
-    }
-
-    private void showRemoteViewsNotification() {
-        Log.d(Constants.LOG_TAG, "REMOTE VIEWS NOTIFICATION");
     }
 }

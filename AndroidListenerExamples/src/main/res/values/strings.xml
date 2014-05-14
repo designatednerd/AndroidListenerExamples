@@ -43,7 +43,6 @@
     <string name="nf_big_text">Big Text Notification</string>
     <string name="nf_big_picture">Big Picture Notification</string>
     <string name="nf_inbox">Inbox Notification</string>
-    <string name="nf_remote_views">Custom Notification With RemoteViews</string>
     <string name="nf_simple_title">Easy Notification</string>
     <string name="nf_simple_message">"This is super simple!"</string>
     <string name="nf_simple_ticker">"O Hai Notification Area"</string>
