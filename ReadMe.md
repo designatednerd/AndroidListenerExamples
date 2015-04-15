@@ -1,14 +1,17 @@
 #AndroidListenerExamples
-=======================
+
 A repository for examples for my talks at the [AndroidListener](http://twitter.com/AndroidListener) meetup in Chicago. 
 
 Examples are backwards-compatible to API 10 (aka 2.3.3 Gingerbread) except as noted. 
+
+###EspressoUITestExample
+From my April 2015 talk on UI testing with Espresso 2.0. Also uses [Jake Wharton's ActivityRule](https://gist.github.com/JakeWharton/1c2f2cadab2ddd97f9fb) for JUnit4 testing and has some custom ViewActions in the test package. 
 
 ###NotificationFragment
 From my May 2014 talk on Notifications, examples of several of the types of notifications introduced in Jellybean (backwards compatible using `NotificationCompat` and its assorted friends).
 
 ###ImmersiveFragment
-From my January 2014 talk on Kit Kat Immersive Mode. Not backwards-compatible beyond API 14, has some issues with resizing the window at the moment. 
+From my January 2014 talk on Kit Kat Immersive Mode. Not backwards-compatible beyond API 14, has some issues with resizing the window at the moment. *[Note: Temporarily disabled in display, but is still available for your code perusal]*
 
 ###SpannedTextFragment
 From my December 2013 talk on clickable `TextSpans`. 
