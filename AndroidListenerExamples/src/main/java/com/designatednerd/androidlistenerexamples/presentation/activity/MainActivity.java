@@ -5,11 +5,12 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu mMenu;
+    private Toolbar mToolbar;
 
     //Variables for Immersive Mode.
     private int mStatusBarHeight;
@@ -49,19 +51,17 @@ public class MainActivity extends ActionBarActivity {
         INDEX_VIDEO,
         INDEX_KITTENS,
         INDEX_TEXT_SPAN,
-        INDEX_IMMERSIVE,
+//        INDEX_IMMERSIVE,
         INDEX_NOTIFICATION;
 
         public static DrawerIndex fromInteger(int index) {
             switch(index) {
-                case 4:
-                    return INDEX_VIDEO;
                 case 3:
-                    return INDEX_KITTENS;
+                    return INDEX_VIDEO;
                 case 2:
-                    return INDEX_TEXT_SPAN;
+                    return INDEX_KITTENS;
                 case 1:
-                    return INDEX_IMMERSIVE;
+                    return INDEX_TEXT_SPAN;
                 case 0:
                     return INDEX_NOTIFICATION;
                 default:
@@ -76,8 +76,8 @@ public class MainActivity extends ActionBarActivity {
                 return INDEX_KITTENS;
             } else if (tag.equalsIgnoreCase(TAG_TEXT_SPAN_FRAGMENT)) {
                 return INDEX_TEXT_SPAN;
-            } else if (tag.equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
-                return INDEX_IMMERSIVE;
+//            } else if (tag.equalsIgnoreCase(TAG_IMMERSIVE_FRAGMENT)) {
+//                return INDEX_IMMERSIVE;
             } else if (tag.equalsIgnoreCase(TAG_NOTIFICATION_FRAGMENT)) {
                 return INDEX_NOTIFICATION;
             } else {
@@ -88,12 +88,10 @@ public class MainActivity extends ActionBarActivity {
         public static int valueOf(DrawerIndex index) {
             switch (index) {
                 case INDEX_VIDEO:
-                    return 4;
-                case INDEX_KITTENS:
                     return 3;
-                case INDEX_TEXT_SPAN:
+                case INDEX_KITTENS:
                     return 2;
-                case INDEX_IMMERSIVE:
+                case INDEX_TEXT_SPAN:
                     return 1;
                 case INDEX_NOTIFICATION:
                     return 0;
@@ -121,6 +119,8 @@ public class MainActivity extends ActionBarActivity {
         //Setup the drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         //Set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -146,8 +146,12 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //Setup the toggle to show/hide the drawer
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+                mDrawerLayout, /* DrawerLayout object */
+                mToolbar, /* Toolbar object */
+                R.string.drawer_open, /* "open drawer" description for accessibility */
+                R.string.drawer_close /* "close drawer" description for accessibility */
+        ) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
@@ -158,7 +162,7 @@ public class MainActivity extends ActionBarActivity {
                     onPrepareOptionsMenu(mMenu);
                 }
 
-                startFullscreenIfNeeded();
+//                startFullscreenIfNeeded();
             }
 
             /** Called when a drawer has settled in a completely open state. */
@@ -288,11 +292,11 @@ public class MainActivity extends ActionBarActivity {
                 SpannedTextFragment spannedTextFragment = new SpannedTextFragment();
                 showFragment(spannedTextFragment, TAG_TEXT_SPAN_FRAGMENT);
                 break;
-            case INDEX_IMMERSIVE:
-                Log.d(Constants.LOG_TAG, "Selected Immersive!");
-                ImmersiveFragment immersiveFragment = new ImmersiveFragment();
-                showFragment(immersiveFragment, TAG_IMMERSIVE_FRAGMENT);
-                break;
+//            case INDEX_IMMERSIVE:
+//                Log.d(Constants.LOG_TAG, "Selected Immersive!");
+//                ImmersiveFragment immersiveFragment = new ImmersiveFragment();
+//                showFragment(immersiveFragment, TAG_IMMERSIVE_FRAGMENT);
+//                break;
             case INDEX_NOTIFICATION:
                 Log.d(Constants.LOG_TAG, "Selected Notifications!");
                 NotificationFragment notificationFragment = new NotificationFragment();

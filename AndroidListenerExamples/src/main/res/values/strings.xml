@@ -7,7 +7,6 @@
     <!-- String Names -->
     <string-array name="examples_array">
         <item>Notifications</item>
-        <item>Immersive Mode</item>
         <item>Spanned Text</item>
         <item>Kittens!</item>
         <item>Fullscreen Video</item>
