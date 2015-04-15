@@ -1,9 +1,5 @@
 package com.designatednerd.androidlistenerexamples.rule;
 
-/**
- * Created by ellen on 4/15/15.
- */
-
 //From this gist: https://gist.github.com/JakeWharton/1c2f2cadab2ddd97f9fb
 
 /*
