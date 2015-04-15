@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
     private int mNavigationBarHeight;
 
     //Enum with handler to automatically return the proper enum value based on an integer.
-    private enum DrawerIndex  {
+    public enum DrawerIndex  {
         INDEX_VIDEO,
         INDEX_KITTENS,
         INDEX_TEXT_SPAN,

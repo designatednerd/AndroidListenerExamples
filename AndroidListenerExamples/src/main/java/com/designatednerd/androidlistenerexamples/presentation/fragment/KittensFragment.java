@@ -14,16 +14,14 @@ import com.designatednerd.androidlistenerexamples.R;
  */
 public class KittensFragment extends Fragment {
 
-    private WebView mWebView;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mainView = inflater.inflate(R.layout.fragment_fullscreen_video_webview, container, false);
+        View mainView = inflater.inflate(R.layout.fragment_kittens, container, false);
 
-        mWebView = (WebView) mainView.findViewById(R.id.fragment_fsv_webview);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.loadUrl("http://www.emergencykitten.com");
+        WebView webView = (WebView) mainView.findViewById(R.id.fragment_kittens_webview);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.loadUrl("http://www.emergencykitten.com");
 
         return mainView;
     }

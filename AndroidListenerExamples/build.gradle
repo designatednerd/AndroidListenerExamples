@@ -22,6 +22,14 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 21
+
+        //Add for Espresso
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        //Prevent a duplicate file warning when trying to run UI tests.
+        exclude 'LICENSE.txt'
     }
 }
 

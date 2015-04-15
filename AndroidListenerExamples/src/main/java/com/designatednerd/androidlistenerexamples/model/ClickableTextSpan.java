@@ -58,6 +58,13 @@ public class ClickableTextSpan extends ClickableSpan {
         ds.setColor(mLinkColor);
     }
 
+    /******************
+     * PUBLIC GETTERS *
+     ******************/
+    public String getText() {
+        return mLinkedText;
+    }
+
     /************************************
      * ADDING CLICKABLE SPANS TO THINGS *
      ************************************/
