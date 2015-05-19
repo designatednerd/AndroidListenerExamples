@@ -2,7 +2,6 @@ package com.designatednerd.androidlistenerexamples.test;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.designatednerd.androidlistenerexamples.R;
@@ -12,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -25,9 +23,9 @@ import static com.designatednerd.androidlistenerexamples.viewaction.CustomViewAc
 
 /**
  * Created by ellen on 4/15/15.
+ *
+ * NOTE: Since the test runner is set in the build.gradle, you don't have to explicitly call it out here.
  */
-
-@RunWith(AndroidJUnit4.class)
 public class EspressoUITestingExample {
 
     @Rule
