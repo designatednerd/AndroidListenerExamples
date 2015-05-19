@@ -1,12 +1,12 @@
 package com.designatednerd.androidlistenerexamples.test;
 
 import android.content.Context;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.designatednerd.androidlistenerexamples.R;
 import com.designatednerd.androidlistenerexamples.presentation.activity.MainActivity;
-import com.designatednerd.androidlistenerexamples.rule.ActivityRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +31,7 @@ import static com.designatednerd.androidlistenerexamples.viewaction.CustomViewAc
 public class EspressoUITestingExample {
 
     @Rule
-    public final ActivityRule<MainActivity> mainActivity = new ActivityRule<>(MainActivity.class);
+    public final ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<>(MainActivity.class);
 
     private static final long UI_TEST_TIMEOUT = 5 * 1000; //5 seconds
     private static final String TEST_LOG_TAG = "UI Tests!";
@@ -69,7 +69,7 @@ public class EspressoUITestingExample {
      * @return The current context.
      */
     private Context getContext() {
-        return mainActivity.get();
+        return mainActivity.getActivity();
     }
 
     /**
