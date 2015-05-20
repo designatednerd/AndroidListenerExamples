@@ -79,4 +79,10 @@ public class ParameterTestExample {
         String foundCommonLetters = mLetterFinder.commonLetters(mFirstString, mSecondString);
         assertEquals(mExpectedCommonLetters, foundCommonLetters);
     }
+
+    @Test
+    public void findCommonLettersIgnoringCase() {
+        String foundCommonLetters = mLetterFinder.commonLettersCaseInsensitive(mFirstString, mSecondString);
+        assertEquals(mExpectedCommonLetters, foundCommonLetters);
+    }
 }

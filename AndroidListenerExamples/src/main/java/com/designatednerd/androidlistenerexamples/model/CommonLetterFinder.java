@@ -31,6 +31,10 @@ public class CommonLetterFinder {
     }
 
     public String commonLettersCaseInsensitive(String aFirstString, String aSecondString) {
-        return commonLetters(aFirstString.toLowerCase(), aSecondString.toLowerCase());
+        if (aFirstString != null && aSecondString != null) {
+            return commonLetters(aFirstString.toLowerCase(), aSecondString.toLowerCase());
+        } else {
+            return null;
+        }
     }
 }
