@@ -1,9 +1,13 @@
 package com.designatednerd.androidlistenerexamples.test;
 
+import android.util.Log;
+
 import com.designatednerd.androidlistenerexamples.model.CommonLetterFinder;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -16,20 +20,38 @@ import static org.junit.Assert.assertNull;
  */
 public class JUnit4TestExample {
 
+    /*************
+     * VARIABLES *
+     *************/
+
+    private static final String LOG_TAG = "JUnit4TestExample";
+
     private CommonLetterFinder mFinder;
 
     /******************
      * TEST LIFECYCLE *
      ******************/
 
+    @BeforeClass
+    public static void beforeClass() {
+        Log.d(LOG_TAG, "Before any of the tests in the class begin!");
+    }
+
     @Before
     public void beforeInstance() {
+        Log.d(LOG_TAG, "Before each test in the class begins!");
         mFinder = new CommonLetterFinder();
     }
 
     @After
     public void afterInstance() {
+        Log.d(LOG_TAG, "After each test in the class ends!");
         mFinder = null;
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        Log.d(LOG_TAG, "After all the tests in the class end!");
     }
 
     /*********
