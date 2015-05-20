@@ -4,8 +4,11 @@ A repository for examples for my talks at the [AndroidListener](http://twitter.c
 
 Examples are backwards-compatible to API 10 (aka 2.3.3 Gingerbread) except as noted. 
 
+###CommonLetterFinder, JUnit4TestExample and ParameterTestExample
+From my May 2015 talk about JUnit4 testing. 
+
 ###EspressoUITestExample
-From my April 2015 talk on UI testing with Espresso 2.0. Also uses [Jake Wharton's ActivityRule](https://gist.github.com/JakeWharton/1c2f2cadab2ddd97f9fb) for JUnit4 testing and has some custom ViewActions in the test package. 
+From my April 2015 talk on UI testing with Espresso 2.0. Also ~~uses [Jake Wharton's ActivityRule](https://gist.github.com/JakeWharton/1c2f2cadab2ddd97f9fb) for JUnit4 testing and~~ has some custom ViewActions in the test package. Has been updated to use Espresso 2.1's `ActivityTestRule`. 
 
 ###NotificationFragment
 From my May 2014 talk on Notifications, examples of several of the types of notifications introduced in Jellybean (backwards compatible using `NotificationCompat` and its assorted friends).
