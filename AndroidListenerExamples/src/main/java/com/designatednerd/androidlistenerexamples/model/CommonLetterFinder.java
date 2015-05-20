@@ -6,6 +6,14 @@ package com.designatednerd.androidlistenerexamples.model;
  */
 public class CommonLetterFinder {
 
+    /**
+     * Method to find common letters, respecting case.
+     *
+     * @param aFirstString  The first string to compare.
+     * @param aSecondString The second string to compare.
+     * @return              The common letters in the string, in the order in which they exist in
+     *                      the first param, or null if there are no common letters.
+     */
     public String commonLetters(String aFirstString, String aSecondString) {
         if (aFirstString != null && aSecondString != null) {
             StringBuilder builder = new StringBuilder();
@@ -30,6 +38,14 @@ public class CommonLetterFinder {
         return null;
     }
 
+    /**
+     * Method to find common letters, ignoring case.
+     *
+     * @param aFirstString  The first string to compare,
+     * @param aSecondString The second string to compare.
+     * @return              The common letters in the string, in the order in which they exist in
+     *                      the first param, or null if there are no common letters.
+     */
     public String commonLettersCaseInsensitive(String aFirstString, String aSecondString) {
         if (aFirstString != null && aSecondString != null) {
             return commonLetters(aFirstString.toLowerCase(), aSecondString.toLowerCase());

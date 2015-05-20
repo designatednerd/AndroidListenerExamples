@@ -13,8 +13,10 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Created by ellen on 5/19/15.
+ *
+ * A class to show off how to use parameterized tests with JUnit 4.
+ * Note: Needs RunWith annotation since it's using a more specific runner than the standard.
  */
-//Needs RunWith annotation since it's using a more specific runner.
 @RunWith(Parameterized.class)
 public class ParameterTestExample {
 

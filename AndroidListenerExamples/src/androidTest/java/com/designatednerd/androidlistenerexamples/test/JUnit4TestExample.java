@@ -17,6 +17,9 @@ import static org.junit.Assert.assertNull;
 
 /**
  * Created by ellen on 5/19/15.
+ *
+ * A test suite to show off some of the functionality of the AndroidJUnit4 runner.
+ * Note that RunWith is not necessary here since the runner is set in build.gradle.
  */
 public class JUnit4TestExample {
 
