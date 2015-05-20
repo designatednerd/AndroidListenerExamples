@@ -14,13 +14,26 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by ellen on 5/19/15.
  */
+//Needs RunWith annotation since it's using a more specific runner.
 @RunWith(Parameterized.class)
 public class ParameterTestExample {
 
+    /*******************
+     * PARAMETER SETUP *
+     *******************/
+
+    /**
+     * Create an iterable of object arrays that can be handed over to the test
+     * as parameters to the constructor.
+     *
+     * For example, here we have a constructor that takes 3 items: The first string,
+     * the second string, and the expected overlap string. Each of these arrays
+     * of strings will be passed in to the constructor in that order.
+     */
     @Parameters
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                { "cat", "rat", "at" }, //Returns in order
+                { "cat", "eta", "at" }, //Returns in order of first string
                 { "dog", "pug", "g"}, //Single letter
                 { "bob", "steve", null }, //No letters
                 { "mary", "roger", "r"}, //Many of one letter
@@ -30,14 +43,26 @@ public class ParameterTestExample {
         });
     }
 
-    /**
-     * Create your object and the things you're passing it.
-     */
+
+    /*************
+     * VARIABLES *
+     *************/
+
     private String              mFirstString;
     private String              mSecondString;
     private String              mExpectedCommonLetters;
     private CommonLetterFinder  mLetterFinder;
 
+    /***************
+     * CONSTRUCTOR *
+     ***************/
+
+    /**
+     * Test constructor that takes the params defined above.
+     * @param aFirstString      The first string to compare.
+     * @param aSecondString     The second string to compare.
+     * @param aCommonLetters    The expected common letters in the string.
+     */
     public ParameterTestExample(String aFirstString, String aSecondString, String aCommonLetters) {
         mFirstString = aFirstString;
         mSecondString = aSecondString;
@@ -45,9 +70,10 @@ public class ParameterTestExample {
         mLetterFinder = new CommonLetterFinder();
     }
 
-    /**
-     * Since this is being run with Parameterized, it will be run the number of times
-     */
+    /***********************
+     * PARAMETERIZED TESTS *
+     ***********************/
+
     @Test
     public void findCommonLetters() {
         String foundCommonLetters = mLetterFinder.commonLetters(mFirstString, mSecondString);
